@@ -22,7 +22,7 @@ const { storeReturnTo } = require('./middleware');
 const multer  = require('multer');
 const {storage}=require('./cloudinary/app');
 const upload = multer({storage});
-const dburl=process.env.DB_URL || 'mongodb://0.0.0.0:27017/shop';
+const dburl=process.env.DB_URL || 'mongodb://127.0.0.1:27017/shop';
 const mongoose= require('mongoose');
 const { stringify } = require('querystring');
 const MongoDBStore=require('connect-mongo')(session)
@@ -33,7 +33,9 @@ const MongoDBStore=require('connect-mongo')(session)
 //mongoUrl,
 //collectionName: 'products',
 //});
-//0.0.0.0
+//0.0.0.0 0.0.0.0:27017 
+//127.0.0.1:27017
+
 
 
 
