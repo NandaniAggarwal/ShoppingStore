@@ -1,0 +1,95 @@
+<% layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/star.css">
+<div class="row">
+    <div class="col-6">
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <% product.images.forEach((img,i)=>{ %>
+            <div class="carousel-item <%= i===0 ? 'active':'' %>">
+            <img class="d-block w-100" src="<%=img.url%>" alt="...">
+            </div>
+          <% }) %>
+        </div>
+          <% if(product.images.length>1){ %>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+        <% } %>
+      </div>
+
+
+        <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title"><%=product.name%></h5>
+              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa non amet eos ut mollitia veritatis quo totam architecto iure, nostrum rerum! Dolor libero eveniet quidem quasi ut doloremque, ipsum dolore!</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">PRICE : <%= product.price %></li>
+              <li class="list-group-item">CATEGORY : <%= product.category %></li>
+              <li class="list-group-item text-muted">SUBMITTED BY : <%= product.author.username%></li>
+            </ul>
+            <div class="card-body">
+              <a href="/products" class="card-link">Back to All products</a>
+            </div>
+            <% if(currentuser && product.author.equals(currentuser._id)){ %>
+                  <div class="card-body">
+                  <button class="btn btn-info" onclick="location.href='/products/<%=product._id%>/edit'">Edit</button>
+                  <form class="d-inline" action="/products/<%=product._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">DELETE</button>
+                  </form>
+                  </div>
+            <% } %>
+          </div>
+        </div>
+    <div class="col-6">
+    <% if(currentuser){ %>
+      <h2>Leave A Review:</h2>
+      <form action="/products/<%=product._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+        <fieldset class="starability-basic">
+          <legend>First rating:</legend>
+          <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+          <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>        
+        <div class="mb-3">
+          <label class="form-label" for="body" >Review:</label>
+            <textarea class="form-control" name="review[body]" id="body" row="30" col="30" required></textarea>
+        </div>
+        <button class="btn btn-success">Submit</button>
+      </form>
+    <%}%>
+      <% for(let review of product.reviews){%>
+              <div class="mb-3 card">
+                <div class="card-body">
+                  <h5 class="card-title"> <%=review.author.username %></h5>
+                  <p class="starability-result" data-rating="<%= review.rating %>">
+                    Rated:<%= review.rating %> stars
+                  </p>
+                  <p class="card-text">Review: <%= review.body %></p>
+                  <% if(currentuser && review.author.equals(currentuser._id)){ %>
+                  <form action="/products/<%=product._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+                  <% } %>
+                </div>
+              </div>
+      <% } %>
+    </div>
+</div>
+  
+
+
+    

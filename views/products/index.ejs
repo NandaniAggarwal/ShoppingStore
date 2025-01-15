@@ -1,0 +1,27 @@
+<% layout('layout/boilerplate') %>
+    <h1>ALL PRODUCTSS </h1>
+    <!--<a href="/products/new">ADD NEW PRODUCT</a>-->
+    <ul>
+        <% for(let i of products){ %>
+            <div class="card" mb-3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <% if (i.images && i.images.length > 0) { %>
+                        <img src="<%=i.images[0].url %>" alt="image">
+                        <% } %>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=i.name%></h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae enim alias, iusto eveniet quos atque sint expedita ex, quis, repellendus sapiente eligendi. Asperiores inventore, eaque error natus quae ratione magni?</p>
+                            <p class="card-text"><small class="text-muted"> CATEGORY: <%=i.category%></small></p>
+                            <p class="card-text">
+                                <small class="text-muted">PRICE: <%=i.price%></small></p>
+                            <a class="btn btn-primary" href="/products/<%=i._id%>"> View <%=i.name%> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </ul>
+    

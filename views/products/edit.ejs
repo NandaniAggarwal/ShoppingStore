@@ -1,0 +1,51 @@
+<% layout('layout/boilerplate') %>
+    
+    <div class="row">
+        <h1 class="text-center">EDIT A PRODUCT</h1>
+        <div class="col-6 offset-3">
+            <form action="/products/<%= product._id %>?_method=PUT" method="POST" novalidate class="validat-form" enctype="multipart/form-data">
+                <div class="mb-3"><label class="form-label" for="name">PRODUCT NAME</label>
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Enter name of product" value="<%=product.name%>"><div class="valid-feedback">
+                        Looks good!
+                      </div></div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">PRODUCT PRICE</label>
+                    <input class="form-control" type="number" name="price" id="price" placeholder="Enter price of product" value="<%=product.price%>" >
+                    <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                </div>
+                <div class="mb-3">
+                    <label for="category">PRODUCT CATGEORY</label>
+                    <select name="category" id="category">
+                        <% for(let category of categories){ %>
+                            <option value="<%=category%>" <%=product.category===category? 'selected':'' %>><%=category%></option>
+                        <% } %>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                    <div class="mb-3"><button class="btn btn-success">SUBMIT</button></div>
+                    </form>
+                </div>
+                <a href="/products/<%=product._id%>"> CANCEL </a>
+                
+        </div>
+    </div>
+
+    <script>
+        (function(){
+                'use strict'
+                const forms = document.querySelectorAll('.validat-form')
+                Array.from(forms)
+                .forEach(function(form){
+                    form.addEventListener('submit', event => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
